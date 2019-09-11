@@ -1,7 +1,7 @@
 # Личный проект «Кексобукинг» [![Build status][travis-image]][travis-url]
 
 * Студент: [Liubov Kleimenova](https://up.htmlacademy.ru/javascript/18/user/894043).
-* Наставник: `Неизвестно`.
+* Наставник: [Сергей Рожков] (https://htmlacademy.ru/profile/id1069033).
 
 ---
 
