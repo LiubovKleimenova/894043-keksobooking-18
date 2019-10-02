@@ -20,7 +20,7 @@ var PIN_WIDTH = 50;
 var PIN_HEIGHT = 70;
 
 
-var mapDialog = document.querySelector('.map')
+var mapDialog = document.querySelector('.map');
 mapDialog.classList.remove('map--faded');
 
 var pinsContainer = mapDialog.querySelector('.map__pins');
@@ -34,19 +34,19 @@ var getRandomElement = function (anyArray) {
 
 // функция для выбора случайного значения в интервале
 var getRandomFromRange = function (minValue, maxValue) {
-  return minValue + Math.floor((maxValue-minValue)*Math.random())
-}
+  return minValue + Math.floor((maxValue - minValue) * Math.random());
+};
 
-//создать массив слйчайной длины из существующего
+// создать массив слйчайной длины из существующего
 var getRandomLengthArray = function (anyArray) {
   var randomArray = [];
   for (var i = 0; i < getRandomFromRange(1, anyArray.length); i++) {
     randomArray.push(getRandomElement(anyArray));
   }
   return randomArray;
-}
+};
 
-//создаем author
+// создаем author
 var getAuthor = function (number) {
   return {
     avatar: 'img/avatars/user0' + number + '.png'
@@ -57,7 +57,7 @@ var getAuthor = function (number) {
 var getRandomOffer = function () {
   return {
     title: getRandomElement(TITLES),
-    address: getRandomFromRange(0, LOCATION_MAX)+ ', ' + getRandomFromRange(0, LOCATION_MAX),
+    address: getRandomFromRange(0, LOCATION_MAX) + ', ' + getRandomFromRange(0, LOCATION_MAX),
     price: getRandomFromRange(0, PRICE_MAX) + ' $',
     type: getRandomElement(TYPES),
     rooms: getRandomFromRange(ROOMS_MIN, ROOMS_MAX),
@@ -70,29 +70,29 @@ var getRandomOffer = function () {
   };
 };
 
-//создаем location
+// создаем location
 var getLocation = function () {
   return {
     x: getRandomFromRange(0, mapDialog.offsetWidth),
     y: getRandomFromRange(MIN_Y, MAX_Y)
   };
-}
+};
 
 var getAccomodation = function (number) {
   return {
     author: getAuthor(number),
     offer: getRandomOffer(),
     location: getLocation()
-  }
-}
+  };
+};
 
 var getAccomodationsArray = function (number) {
   var accomodations = [];
   for (var i = 0; i < number; i++) {
-    accomodations.push(getAccomodation(i+1));
+    accomodations.push(getAccomodation(i + 1));
   }
   return accomodations;
-}
+};
 
 var accomodationMocks = getAccomodationsArray(NUMBER_OF_USERS);
 
