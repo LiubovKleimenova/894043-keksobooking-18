@@ -155,3 +155,5 @@ var renderCard = function (card) {
 
   return cardElement;
 };
+
+renderCard(accomodationMocks[0]);
