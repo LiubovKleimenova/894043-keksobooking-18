@@ -119,16 +119,16 @@ pinsContainer.appendChild(renderPins(accomodationMocks));
 // перевод типов в наименования
 var transformTypeToHousingName = function (accomodationType) {
   var housingName = '';
-  if (accomodationType == 'flat') {
+  if (accomodationType === 'flat') {
     housingName = 'Квартира';
   }
-  if (accomodationType == 'bungalo') {
+  if (accomodationType === 'bungalo') {
     housingName = 'Бунгало';
   }
-  if (accomodationType == 'house') {
+  if (accomodationType === 'house') {
     housingName = 'Дом';
   }
-  if (accomodationType == 'palace') {
+  if (accomodationType === 'palace') {
     housingName = 'Дворец';
   }
   return housingName;
@@ -155,6 +155,3 @@ var renderCard = function (card) {
 
   return cardElement;
 };
-
-console.log(renderCard(accomodationMocks[0]));
-console.log(renderCard(accomodationMocks[1]));
