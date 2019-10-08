@@ -119,28 +119,28 @@ pinsContainer.appendChild(renderPins(accomodationMocks));
 // перевод типов в наименования
 var transformTypeToHousingName = function (accomodationType) {
   var housingName = '';
-  if (accomodationType = 'flat') {
+  if (accomodationType == 'flat') {
     housingName = 'Квартира';
   }
-  if (accomodationType = 'bungalo') {
+  if (accomodationType == 'bungalo') {
     housingName = 'Бунгало';
   }
-  if (accomodationType = 'house') {
+  if (accomodationType == 'house') {
     housingName = 'Дом';
   }
-  if (accomodationType = 'palace') {
+  if (accomodationType == 'palace') {
     housingName = 'Дворец';
   }
   return housingName;
-}
+};
 
 // вывод фичей списком, проблемы где-то здесь или в строке 153
 var createFeaturesList = function (featuresArray, featureList) { // я пытаюсь создать функцию, которая принимает два параметра: массив фичей из моков и список ul из разметки (в строке 153)
   for (var i = 0; i < featuresArray.length; i++) {
-    featureList.insertAdjacentHTML('afterbegin', '<li class="popup__feature popup__feature--' + featuresArray[i] + '></li>')
+    featureList.insertAdjacentHTML('afterbegin', '<li class="popup__feature popup__feature--' + featuresArray[i] + '></li>');
   }
   return featureList;
-}
+};
 
 var renderCard = function (card) {
   var cardElement = cardTemplate.cloneNode(true);
@@ -154,7 +154,7 @@ var renderCard = function (card) {
   cardElement.querySelector('.popup__description').textContent = card.offer.description;
 
   return cardElement;
-}
+};
 
 console.log(renderCard(accomodationMocks[0]));
 console.log(renderCard(accomodationMocks[1]));
