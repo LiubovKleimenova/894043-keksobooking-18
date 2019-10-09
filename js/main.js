@@ -2,7 +2,7 @@
 
 var NUMBER_OF_USERS = 8;
 var TITLES = ['Квартира', 'Комната', 'Лофт', 'Апартаменты', 'Студия', 'Дом', 'Бунгало'];
-var PRICE_MAX = 550;
+var PRICE_MAX = 5500;
 var TYPES = ['palace', 'flat', 'house', 'bungalo'];
 var ROOMS_MAX = 6;
 var ROOMS_MIN = 1;
@@ -25,7 +25,6 @@ mapDialog.classList.remove('map--faded');
 
 var pinsContainer = mapDialog.querySelector('.map__pins');
 var pinTemplate = document.querySelector('#pin').content.querySelector('.map__pin');
-
 var cardTemplate = document.querySelector('#card').content.querySelector('.map__card');
 
 // функция, для выбора случайного элемента из массива
@@ -117,43 +116,62 @@ var renderPins = function (pins) {
 pinsContainer.appendChild(renderPins(accomodationMocks));
 
 // перевод типов в наименования
+var accomodationMap = {
+  flat: 'Квартира',
+  bungalo: 'Бунгало',
+  house: 'Дом',
+  palace: 'Дворец'
+}
+
 var transformTypeToHousingName = function (accomodationType) {
-  var housingName = '';
-  if (accomodationType === 'flat') {
-    housingName = 'Квартира';
-  }
-  if (accomodationType === 'bungalo') {
-    housingName = 'Бунгало';
-  }
-  if (accomodationType === 'house') {
-    housingName = 'Дом';
-  }
-  if (accomodationType === 'palace') {
-    housingName = 'Дворец';
-  }
-  return housingName;
+  return accomodationMap[accomodationType];
 };
 
-// вывод фичей списком, проблемы где-то здесь или в строке 153
-var createFeaturesList = function (featuresArray, featureList) { // я пытаюсь создать функцию, которая принимает два параметра: массив фичей из моков и список ul из разметки (в строке 153)
-  for (var i = 0; i < featuresArray.length; i++) {
-    featureList.insertAdjacentHTML('afterbegin', '<li class="popup__feature popup__feature--' + featuresArray[i] + '></li>');
+// функция для проверки есть ли элемент в массиве
+var checkPresence = function (element, array) {
+  if (array.indexOf(element) === -1) {
+    return false;
   }
-  return featureList;
+  else {
+    return true
+  }
+}
+
+
+
+// показ фичей из списка
+var showFeaturesFromList = function (featuresArray, featureList) { // я пытаюсь создать функцию, которая принимает два параметра: массив фичей из моков и список ul из разметки (в строке 153)
+  for (var i = 0; i < FEATURES.length; i++) {
+    if (checkPresence(FEATURES[i], featuresArray)) {
+      featureList.querySelector('.popup__feature--' + FEATURES[i]).style.display = 'block';
+    } else {
+      featureList.querySelector('.popup__feature--' + FEATURES[i]).style.display = 'none';
+    };
+  };
+};
+
+// показ фото
+var showPhotosList = function (photosList, photosArray) {
+  photosList.children[0].src = photosArray[0];
+  for (var i = 1; i < photosArray.length; i++) {
+    var photo = photosList.children[0].cloneNode(true);
+    photo.src = photosArray[i];
+  }
 };
 
 var renderCard = function (card) {
   var cardElement = cardTemplate.cloneNode(true);
   cardElement.querySelector('.popup__title').textContent = card.offer.title;
   cardElement.querySelector('.popup__text--address').textContent = card.offer.address;
-  cardElement.querySelector('.popup__text--price').textContent = card.offer.price + '₽/ночь';
+  cardElement.querySelector('.popup__text--price').textContent = card.offer.price + ' ₽/ночь';
   cardElement.querySelector('.popup__type').textContent = transformTypeToHousingName(card.offer.type);
   cardElement.querySelector('.popup__text--capacity').textContent = card.offer.rooms + ' комнаты для ' + card.offer.guests + ' гостей';
   cardElement.querySelector('.popup__text--time').textContent = 'Заезд после ' + card.offer.checkin + ', выезд до ' + card.offer.checkout;
-  createFeaturesList(card.offer.features, cardElement.querySelector('.popup__features'));
+  showFeaturesFromList(card.offer.features, cardElement.querySelector('.popup__features'));
   cardElement.querySelector('.popup__description').textContent = card.offer.description;
-
+  showPhotosList(cardElement.querySelector('.popup__photos'), card.offer.photos);
+  //cardElement.querySelector('.popup__photo').src = card.offer.photos;
   return cardElement;
 };
 
-renderCard(accomodationMocks[0]);
+mapDialog.insertBefore(renderCard(accomodationMocks[0]), mapDialog.querySelector('.map__filters-container'));
