@@ -132,7 +132,7 @@ var checkPresence = function (element, array) {
   if (array.indexOf(element) === -1) {
     return false;
   } else {
-    return true
+    return true;
   }
 };
 
