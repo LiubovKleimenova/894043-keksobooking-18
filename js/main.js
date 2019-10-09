@@ -121,7 +121,7 @@ var accomodationMap = {
   bungalo: 'Бунгало',
   house: 'Дом',
   palace: 'Дворец'
-}
+};
 
 var transformTypeToHousingName = function (accomodationType) {
   return accomodationMap[accomodationType];
@@ -131,13 +131,10 @@ var transformTypeToHousingName = function (accomodationType) {
 var checkPresence = function (element, array) {
   if (array.indexOf(element) === -1) {
     return false;
-  }
-  else {
+  } else {
     return true
   }
-}
-
-
+};
 
 // показ фичей из списка
 var showFeaturesFromList = function (featuresArray, featureList) { // я пытаюсь создать функцию, которая принимает два параметра: массив фичей из моков и список ul из разметки (в строке 153)
@@ -146,8 +143,8 @@ var showFeaturesFromList = function (featuresArray, featureList) { // я пыт�
       featureList.querySelector('.popup__feature--' + FEATURES[i]).style.display = 'block';
     } else {
       featureList.querySelector('.popup__feature--' + FEATURES[i]).style.display = 'none';
-    };
-  };
+    }
+  }
 };
 
 // показ фото
@@ -170,7 +167,6 @@ var renderCard = function (card) {
   showFeaturesFromList(card.offer.features, cardElement.querySelector('.popup__features'));
   cardElement.querySelector('.popup__description').textContent = card.offer.description;
   showPhotosList(cardElement.querySelector('.popup__photos'), card.offer.photos);
-  //cardElement.querySelector('.popup__photo').src = card.offer.photos;
   return cardElement;
 };
 
