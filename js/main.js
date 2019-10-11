@@ -171,3 +171,6 @@ var renderCard = function (card) {
 };
 
 mapDialog.insertBefore(renderCard(accomodationMocks[0]), mapDialog.querySelector('.map__filters-container'));
+
+
+var mapPinMain = document.querySelector('.map__pin--main');
