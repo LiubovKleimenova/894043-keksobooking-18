@@ -18,10 +18,13 @@ var MIN_Y = 130;
 var MAX_Y = 630;
 var PIN_WIDTH = 50;
 var PIN_HEIGHT = 70;
+var ENTER_KEYCODE = 13;
+var MUFFIN_WIDTH = 40;
+var MUFFIN_HEIGHT = 44;
 
 
 var mapDialog = document.querySelector('.map');
-mapDialog.classList.remove('map--faded');
+
 
 var pinsContainer = mapDialog.querySelector('.map__pins');
 var pinTemplate = document.querySelector('#pin').content.querySelector('.map__pin');
@@ -94,7 +97,7 @@ var getAccomodationsArray = function (number) {
   return accomodations;
 };
 
-var accomodationMocks = getAccomodationsArray(NUMBER_OF_USERS);
+//var accomodationMocks = getAccomodationsArray(NUMBER_OF_USERS);
 
 var renderPin = function (pin) {
   var pinElement = pinTemplate.cloneNode(true);
@@ -113,7 +116,7 @@ var renderPins = function (pins) {
   return fragment;
 };
 
-pinsContainer.appendChild(renderPins(accomodationMocks));
+//pinsContainer.appendChild(renderPins(accomodationMocks));
 
 // перевод типов в наименования
 var accomodationMap = {
@@ -167,10 +170,68 @@ var renderCard = function (card) {
   showFeaturesFromList(card.offer.features, cardElement.querySelector('.popup__features'));
   cardElement.querySelector('.popup__description').textContent = card.offer.description;
   showPhotosList(cardElement.querySelector('.popup__photos'), card.offer.photos);
-  return cardElement;
+  return cardElemen
 };
 
-mapDialog.insertBefore(renderCard(accomodationMocks[0]), mapDialog.querySelector('.map__filters-container'));
+//mapDialog.insertBefore(renderCard(accomodationMocks[0]), mapDialog.querySelector('.map__filters-container'));
 
 
 var mapPinMain = document.querySelector('.map__pin--main');
+
+// при открытии страницы все формы в ней неактивны:
+var adForm = document.querySelector('.ad-form');
+var adFormFieldsetCollection = adForm.querySelectorAll('fieldset');
+
+for (var i = 0; i < adFormFieldsetCollection.length; i++) {
+  adFormFieldsetCollection[i].setAttribute('disabled', true);
+}
+
+var mapFiltersForm = document.querySelector('.map__filters');
+mapFiltersForm.setAttribute('disabled', true);
+
+
+// заполнение поля адреса
+var pinPositionX = Math.round(mapPinMain.getBoundingClientRect().left + MUFFIN_WIDTH / 2);
+var pinPositionY = Math.round(mapPinMain.getBoundingClientRect().top + MUFFIN_HEIGHT / 2);
+
+
+var fillAddsress = function (x, y) {
+  var addressForm = adForm.querySelector('#address');
+  addressForm.value = x + ', ' + y;
+}
+
+fillAddsress(pinPositionX, pinPositionY);
+
+var activateForms = function () {
+  mapDialog.classList.remove('map--faded');
+  adForm.classList.remove('ad-form--disabled');
+  mapFiltersForm.removeAttribute('disabled');
+  for (var i = 0; i < adFormFieldsetCollection.length; i++) {
+    adFormFieldsetCollection[i].removeAttribute('disabled');
+  }
+  pinPositionX = Math.round(mapPinMain.getBoundingClientRect().left + MUFFIN_WIDTH / 2);
+  pinPositionY = Math.round(mapPinMain.getBoundingClientRect().top + MUFFIN_HEIGHT + PIN_HEIGHT);
+  fillAddsress(pinPositionX, pinPositionY);
+}
+
+mapPinMain.addEventListener('mousedown', activateForms);
+mapPinMain.addEventListener('keydown', function (evt) {
+  if (evt.keyCode === ENTER_KEYCODE) {
+    activateForms();
+  }
+});
+
+// валидация соответстия количества гостей количеству комнат
+
+var roomNumbers = adForm.querySelector('#room_number');
+var roomCapacities = adForm.querySelector('#capacity');
+var roomNumber = roomNumbers.querySelector('option[selected]');
+var roomCapacity = roomCapacities.querySelector('option[selected]');
+
+if (roomNumber == 1 && roomCapacity.value !== 1) {
+ roomNumbers.setCustomValidity('В одной комнате не может проживать более одного человека. Выберите помещение с большим количеством комнат');
+}
+
+//else if (roomNumber.value == 2 && (roomCapacity !== 1 || roomCapacity !== 2)) {
+//  roomNumber.setCustomValidity('В двух комнате не может проживать более двух человек. Выберите помещение с большим количеством комнат');
+//}
