@@ -1,6 +1,6 @@
 'use strict';
 
-var NUMBER_OF_USERS = 8;
+// var NUMBER_OF_USERS = 8;
 var TITLES = ['Квартира', 'Комната', 'Лофт', 'Апартаменты', 'Студия', 'Дом', 'Бунгало'];
 var PRICE_MAX = 5500;
 var TYPES = ['palace', 'flat', 'house', 'bungalo'];
@@ -97,7 +97,7 @@ var getAccomodationsArray = function (number) {
   return accomodations;
 };
 
-//var accomodationMocks = getAccomodationsArray(NUMBER_OF_USERS);
+// var accomodationMocks = getAccomodationsArray(NUMBER_OF_USERS);
 
 var renderPin = function (pin) {
   var pinElement = pinTemplate.cloneNode(true);
@@ -116,7 +116,7 @@ var renderPins = function (pins) {
   return fragment;
 };
 
-//pinsContainer.appendChild(renderPins(accomodationMocks));
+// pinsContainer.appendChild(renderPins(accomodationMocks));
 
 // перевод типов в наименования
 var accomodationMap = {
@@ -173,7 +173,7 @@ var renderCard = function (card) {
   return cardElemen
 };
 
-//mapDialog.insertBefore(renderCard(accomodationMocks[0]), mapDialog.querySelector('.map__filters-container'));
+// mapDialog.insertBefore(renderCard(accomodationMocks[0]), mapDialog.querySelector('.map__filters-container'));
 
 
 var mapPinMain = document.querySelector('.map__pin--main');
@@ -232,6 +232,6 @@ if (roomNumber == 1 && roomCapacity.value !== 1) {
  roomNumbers.setCustomValidity('В одной комнате не может проживать более одного человека. Выберите помещение с большим количеством комнат');
 }
 
-//else if (roomNumber.value == 2 && (roomCapacity !== 1 || roomCapacity !== 2)) {
+// else if (roomNumber.value == 2 && (roomCapacity !== 1 || roomCapacity !== 2)) {
 //  roomNumber.setCustomValidity('В двух комнате не может проживать более двух человек. Выберите помещение с большим количеством комнат');
-//}
+// }
