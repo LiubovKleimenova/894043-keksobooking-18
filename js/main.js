@@ -223,15 +223,92 @@ mapPinMain.addEventListener('keydown', function (evt) {
 
 // валидация соответстия количества гостей количеству комнат
 
-var roomNumbers = adForm.querySelector('#room_number');
-var roomCapacities = adForm.querySelector('#capacity');
-var roomNumber = roomNumbers.querySelector('option[selected]');
-var roomCapacity = roomCapacities.querySelector('option[selected]');
+var roomNumber = adForm.querySelector('#room_number');
+var roomCapacity = adForm.querySelector('#capacity');
 
-if (roomNumber == 1 && roomCapacity.value !== 1) {
- roomNumbers.setCustomValidity('В одной комнате не может проживать более одного человека. Выберите помещение с большим количеством комнат');
+var validateGuestsNumber = function () {
+  if (roomCapacity.value == '0' && roomNumber.value !== '100') {
+   roomNumber.setCustomValidity('Данное помещение не подходит для мероприятий. Выберите помещение на 100 комнат');
+ } else if (roomNumber.value == '1' && roomCapacity.value !== '1') {
+    roomNumber.setCustomValidity('В одной комнате не может проживать более одного человека. Выберите помещение с большим количеством комнат');
+  } else if (roomNumber.value == '2' && (roomCapacity.value == '3' || roomCapacity.value == '0')) {
+    roomNumber.setCustomValidity('В двух комнатах не может проживать более двух человек. Выберите помещение с большим количеством комнат');
+  } else if (roomCapacity.value !== '0' && roomNumber.value == '100') {
+    roomNumber.setCustomValidity('Данное помещение подходит только для мероприятий, а не для размещения гостей');
+  }
+  else {
+    roomNumber.setCustomValidity('');
+  }
+};
+
+
+
+
+// валидация заголовка для объеявления
+var adTitle = adForm.querySelector('#title');
+
+var validateTitle = function () {
+  if (adTitle.validity.tooShort) {
+    adTitle.setCustomValidity('Не менее 30 символов');
+  } else if (adTitle.validity.tooLong) {
+    adTitle.setCustomValidity('Не более 100 символов');
+  } else if (adTitle.validity.valueMissing) {
+    adTitle.setCustomValidity('Введите описание');
+  } else {
+    adTitle.setCustomValidity('');
+  }
+};
+
+// валидация соответствия типа жилья и цены
+var adPrice = adForm.querySelector('#price');
+var adType = adForm.querySelector('#type');
+var priceMap = {
+  flat: 1000,
+  bungalo: 0,
+  house: 5000,
+  palace: 10000
+};
+
+adPrice.placeholder=priceMap[adType.value];
+adPrice.min=priceMap[adType.value];
+
+adType.addEventListener('change', function () {
+    adPrice.placeholder = priceMap[adType.value];
+    adPrice.min = priceMap[adType.value];
+});
+
+
+var validatePrice =  function () {
+  if (adPrice.value > 1000000) {
+    adPrice.setCustomValidity('Значение поля должно быть числом менее или равным 1\'000\'000')
+  } else if (adPrice.value < adPrice.min) {
+    adPrice.setCustomValidity('Значение поля для данного типа жилья не дожно быть ниже ' + adPrice.min);
+  } else {
+    adPrice.setCustomValidity('');
+  }
+};
+
+//  соответствие времени выезда времени заезда
+var adTimeIn = adForm.querySelector('#timein');
+var adTimeOut = adForm.querySelector('#timeout');
+
+adTimeOut.value = adTimeIn.value;
+adTimeIn.addEventListener('change', function () {
+    adTimeOut.value = adTimeIn.value;
+});
+
+var validateCheckin = function () {
+  if (adTimeOut.value !== adTimeIn.value) {
+    adTimeOut.setCustomValidity('Время выезда должно совпадать с временем заезда');
+  } else {
+    adTimeOut.setCustomValidity('');
+  }
 }
 
-// else if (roomNumber.value == 2 && (roomCapacity !== 1 || roomCapacity !== 2)) {
-//  roomNumber.setCustomValidity('В двух комнате не может проживать более двух человек. Выберите помещение с большим количеством комнат');
-// }
+var submitBtn = adForm.querySelector('.ad-form__submit');
+  submitBtn.addEventListener('click', function () {
+    validateTitle();
+    validateGuestsNumber();
+    validateCheckin();
+    validatePrice();
+  });
