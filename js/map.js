@@ -86,4 +86,9 @@
   };
 
    window.util.mapDialog.insertBefore(renderCard(window.data.mocks[0]), window.util.mapDialog.querySelector('.map__filters-container'));
+
+   window.map = {
+     pin_width: PIN_WIDTH,
+     pin_height: PIN_HEIGHT
+   }
 })();
